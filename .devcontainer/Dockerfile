@@ -24,11 +24,11 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install libzip-dev libcurl4-openssl-dev libssl-dev libxml2-dev libz-dev \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# install radian
+# install radian and r-languageserver
 RUN apt-get update \
     && apt-get -y install python3-pip \
     && pip3 install -U radian \
-    && Rscript -e 'install.packages("languageserver", repos="https://cloud.r-project.org/")' \
+    && Rscript -e 'install.packages("languageserver")' \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # [Optional] Uncomment this section to install additional OS packages.
