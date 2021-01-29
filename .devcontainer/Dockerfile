@@ -15,16 +15,14 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # Configure apt and install packages
-RUN 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends wget \
+    && apt-get -y install --no-install-recommends apt-utils ca-certificates dialog wget \
     # Verify git, common tools / libs installed, add/modify non-root user, optionally install zsh
-    && mkdir /tmp/library-scripts \
-    && wget -q -O /tmp/library-scripts/common-setup.sh $COMMON_SCRIPT_SOURCE \
+    && wget -q -O /tmp/common-setup.sh $COMMON_SCRIPT_SOURCE \
     && if [ "$COMMON_SCRIPT_SHA" != "dev-mode" ]; then echo "$COMMON_SCRIPT_SHA /tmp/library-scripts/common-setup.sh" | sha256sum -c - ; fi \
-    && /bin/bash /tmp/library-scripts/common-setup.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
-    && apt-get -y install libzip-dev \
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+    && /bin/bash /tmp/common-setup.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
+    && apt-get -y install libzip-dev libcurl4-openssl-dev libssl-dev libxml2-dev libz-dev \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # install radian
 RUN apt-get update \
