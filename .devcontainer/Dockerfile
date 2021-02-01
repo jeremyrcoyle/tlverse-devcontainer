@@ -23,10 +23,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && /bin/bash /tmp/common-setup.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     && apt-get -y install libzip-dev libcurl4-openssl-dev libssl-dev libxml2-dev libz-dev
 
-# install radian and r-languageserver
+# install radian, r-languageserver, and rstudioapi addins
 RUN apt-get -y install python3-pip \
     && pip3 install -U radian \
-    && Rscript -e 'install.packages("languageserver")'
+    && Rscript -e 'install.packages(c("languageserver", "rstudioapi"))'
 
 # clean up unnecessary files
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/*
