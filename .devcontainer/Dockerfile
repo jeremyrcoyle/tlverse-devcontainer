@@ -28,6 +28,11 @@ RUN apt-get -y install python3-pip \
     && pip3 install -U radian \
     && Rscript -e 'install.packages(c("languageserver", "rstudioapi"))'
 
+# install R packages that I often use
+RUN apt-get -y install python3-pip \
+    && pip3 install -U radian \
+    && Rscript -e 'install.packages(c("data.table", "targets", "drake", "visNetwork"))'
+
 # clean up unnecessary files
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/*
 
